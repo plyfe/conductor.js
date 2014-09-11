@@ -36,7 +36,7 @@ define("conductor",
 
     Conductor.prototype = {
       configure: function (name, value) {
-        if ('eventCallback' === name || 'allowSameOrigin' === name) {
+        if ('eventCallback' === name || 'allowSameOrigin' === name || 'sandboxed' === name) {
           this.oasis.configure(name, value);
         } else {
           throw new Error("Unexpected Configuration `" + name + "` = `" + value + "`");

@@ -36,6 +36,6 @@
     "shelljs": "~0.2.5"
   },
   "dependencies": {
-    "rsvp": "2.0.3"
+    "rsvp": "3.0.13"
   }
 }
