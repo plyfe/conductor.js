@@ -3990,7 +3990,7 @@ define("conductor/card",
 
       defer: function(callback) {
         var defered = RSVP.defer();
-        if (callback) { defered.promise.then(callback).fail( RSVP.rethrow ); }
+        if (callback) { defered.promise.then(callback).catch( RSVP.rethrow ); }
         return defered;
       },
 
@@ -4012,7 +4012,7 @@ define("conductor/card",
       _waitForActivationDeferral: function () {
         if (!this._activationDeferral) {
           this._activationDeferral = RSVP.defer();
-          this._activationDeferral.promise.fail( RSVP.rethrow );
+          this._activationDeferral.promise.catch( RSVP.rethrow );
         }
         return this._activationDeferral;
       }
@@ -4065,7 +4065,7 @@ define("conductor/card_reference",
         if (!this._loadPromise) {
           this._loadPromise = this.sandbox.waitForLoad().then(function() {
             return card;
-          }).fail(RSVP.rethrow);
+          }).catch(RSVP.rethrow);
         }
         return this._loadPromise;
       },
@@ -4095,14 +4095,14 @@ define("conductor/card_reference",
 
         this.sandbox.activatePromise.then(function() {
           card.sandbox.renderPort.send('render', [intent, dimensions]);
-        }).fail(RSVP.rethrow);
+        }).catch(RSVP.rethrow);
       },
 
       updateData: function(bucket, data) {
         var sandbox = this.sandbox;
         sandbox.activatePromise.then(function() {
           sandbox.dataPort.send('updateData', { bucket: bucket, data: data });
-        }).fail(RSVP.rethrow);
+        }).catch(RSVP.rethrow);
       },
 
       wiretap: function(callback, binding) {
@@ -4825,10 +4825,10 @@ define("conductor/xhr_consumer",
         });
         Oasis.RSVP.all(jsPromises).then(function(scripts) {
           a_forEach.call(scripts, processJavaScript);
-        }).fail( Oasis.RSVP.rethrow );
+        }).catch( Oasis.RSVP.rethrow );
         a_forEach.call(Conductor._dependencies.requiredCSSURLs, loadURL(processCSS));
 
-        Oasis.RSVP.all(promises).then(function() { promise.resolve(); }).fail( Oasis.RSVP.rethrow );
+        Oasis.RSVP.all(promises).then(function() { promise.resolve(); }).catch( Oasis.RSVP.rethrow );
       }
     });
 
